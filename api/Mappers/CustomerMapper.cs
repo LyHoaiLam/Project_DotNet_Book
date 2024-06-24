@@ -16,7 +16,9 @@ namespace api.Mappers {
                     Name = customerModel.Name,
                     Description = customerModel.Description,
                     YearOfBirth = customerModel.YearOfBirth,
-                    National = customerModel.National
+                    National = customerModel.National,
+                    Books = customerModel.Books.Select(b => b.ToBookDto()).ToList()
+                    
                 };
         }
 

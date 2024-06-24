@@ -15,5 +15,7 @@ namespace api.models {
         [Required]
         public int Amount { get; set; }
 
+        public int? CustomerId { get; set; }
+
     }
 }

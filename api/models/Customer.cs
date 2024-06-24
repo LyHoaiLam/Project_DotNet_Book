@@ -13,5 +13,7 @@ namespace api.models {
 
         public string? National { get; set; }
 
+        public List<Book>? Books { get; set; } = new List<Book>();
+
     }
 }

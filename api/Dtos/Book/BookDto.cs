@@ -5,5 +5,8 @@ namespace api.Dtos.Book {
         public string? Description { get; set; } = string.Empty;
         public double Price { get; set; }
         public int Amount { get; set; }
+
+        public int? CustomerId { get; set; }
+
     }
 }

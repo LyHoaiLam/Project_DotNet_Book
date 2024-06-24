@@ -19,12 +19,23 @@ namespace api.Mappers {
             };
         }
 
-        public static Book CreateBookDto(this CreateBookDto bookDto) {
+        public static Book CreateBookDto(this CreateBookDto bookDto, int customerId) {
             return new Book {
                 Title = bookDto.Title,
                 Description = bookDto.Description,
                 Price = bookDto.Price,
-                Amount = bookDto.Amount   
+                Amount = bookDto.Amount,
+                CustomerId = customerId  
+            };
+        }
+
+
+        public static Book UpdateBookDto(this UpdateBookDto bookDto) {
+            return new Book {
+                Title = bookDto.Title,
+                Description = bookDto.Description,
+                Price = bookDto.Price,
+                Amount = bookDto.Amount,
             };
         }
     }

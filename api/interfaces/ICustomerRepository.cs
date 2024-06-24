@@ -8,5 +8,7 @@ namespace api.interfaces {
         Task<Customer> CreateAsync(Customer customer);
         Task<Customer> UpdateAsync(int id, UpdateCustomer customerDto);
         Task<Customer> DeteleAsync(int id);
+
+        Task<bool> CustomerExists (int id);
     }
 }

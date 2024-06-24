@@ -59,15 +59,28 @@ namespace api.controllers {
         }
 
         
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCustomer(int id) {
-            var customerDelete = await _customerRepo.DeteleAsync(id);
+        // [HttpDelete("{id}")]
+        // public async Task<IActionResult> DeleteCustomer([FromRoute] int id) {
+        //     var customerDelete = await _customerRepo.DeteleAsync(id);
 
-            if(customerDelete == null) {
-                return NotFound();
-            }
-            return NoContent();
-        }
+        //     if(customerDelete == null) {
+        //         return NotFound();
+        //     }
+        //     return NoContent();
+        // }
+
+
+        [HttpDelete("{id}")]
+            public async Task<IActionResult> DeleteCustomer([FromRoute] int id) {
+                var customerDelete = await _customerRepo.DeteleAsync(id);
+
+                if (customerDelete == null) {
+                    return NotFound();
+                }
+
+                return NoContent();
+}
+
 
  
     }

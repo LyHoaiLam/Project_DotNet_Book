@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddDbContext<ApplacationDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnect")));
 builder.Services.AddCors(options => { options.AddPolicy("MyCors", builder => { builder

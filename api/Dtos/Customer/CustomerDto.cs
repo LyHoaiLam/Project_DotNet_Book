@@ -8,5 +8,8 @@ namespace api.Dtos.Customer {
         public DateTime YearOfBirth { get; set; }
         public string? National { get; set; }
 
+        public List<BookDto>? Books { get; set; }
+
+
     }
 }

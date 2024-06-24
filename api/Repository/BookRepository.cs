@@ -55,14 +55,15 @@ namespace api.Repository {
 
         public async Task<Book?> DeleteAsync(int id)
         {
-            var book = await _context.Book.FirstOrDefaultAsync(b => b.Id == id);
-            if(book == null) {
+            var bookModel = await _context.Book.FirstOrDefaultAsync(b => b.Id == id);
+            if(bookModel == null) {
                 return null;
             }
-            _context.Remove(book);
+            // _context.Remove(book);
+            _context.Book.Remove(bookModel);
             await _context.SaveChangesAsync();
 
-            return book;
+            return bookModel;
         }
       
        

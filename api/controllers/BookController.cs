@@ -11,10 +11,12 @@ namespace api.controllers {
 
         private readonly ApplacationDBContext _context;
         private readonly IBookRepository _bookRepo;
+        private readonly ICustomerRepository _customerRepo;
 
-        public BookController(ApplacationDBContext context, IBookRepository bookRepo) {
-            _context = context;
+        public BookController(/*ApplacationDBContext context, */IBookRepository bookRepo, ICustomerRepository customerRepo) {
+            // _context = context;
             _bookRepo = bookRepo;
+            _customerRepo = customerRepo;
         }
         
         // [HttpGet]
@@ -104,15 +106,35 @@ namespace api.controllers {
             return Ok(book.ToBookDto());
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateBook([FromBody] CreateBookDto bookDto) {
-            var bookModel = bookDto.CreateBookDto();
-            await _bookRepo.CreateAsync(bookModel);
-            return CreatedAtAction(nameof(GetByIdBook), new {id = bookModel.Id},bookModel.ToBookDto());
+        [HttpPost("{customerId}")]
+        public async Task<IActionResult> CreateBook([FromRoute]int customerId, CreateBookDto bookDto) {
+            // var bookModel = bookDto.CreateBookDto();
+            // await _bookRepo.CreateAsync(bookModel);
+            // return CreatedAtAction(nameof(GetByIdBook), new {id = bookModel.Id},bookModel.ToBookDto());
+            {
+                if(!await _customerRepo.CustomerExists(customerId)) {
+                    return BadRequest("Customer Does Not Exist");
+                }
+
+                var bookModel = bookDto.CreateBookDto(customerId);
+                await _bookRepo.CreateAsync(bookModel);
+                return CreatedAtAction(nameof(GetByIdBook), new {id = bookModel}, bookModel.ToBookDto());
+            }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateBook(int id, UpdateBookDto bookDto) {
+        // [HttpPut]
+        // public async Task<IActionResult> UpdateBook(int id, UpdateBookDto bookDto) {
+        //     var bookUpdate = await _bookRepo.UpdateAsync(id, bookDto);
+
+        //     if(bookUpdate == null) {
+        //         return NotFound();
+        //     }
+        //     return Ok(bookUpdate.ToBookDto());
+        // }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBook([FromRoute] int id, UpdateBookDto bookDto) {
             var bookUpdate = await _bookRepo.UpdateAsync(id, bookDto);
 
             if(bookUpdate == null) {
@@ -121,8 +143,10 @@ namespace api.controllers {
             return Ok(bookUpdate.ToBookDto());
         }
 
+
+
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id) {
+        public async Task<IActionResult> DeleteBook([FromRoute] int id) {
             var book = await _bookRepo.DeleteAsync(id);
 
                 if(book == null) {
