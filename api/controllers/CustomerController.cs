@@ -21,65 +21,64 @@ namespace api.controllers {
         [HttpGet]
         public async Task<IActionResult> GetAll() {
 
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+                
             var customers = await _customerRepo.GetAllAsync();
             var customerDto = customers.Select(c => c.ToCustomerDto());
-
             return Ok(customers);
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetByIdCustomer(int id) {
+            
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var customer = await _customerRepo.GetByIdAsync(id);
             if(customer == null) {
                 return NotFound();
             }
-
             return Ok(customer.ToCustomerDto());
         }
 
+
         [HttpPost]
         public async Task<IActionResult> CreateCustomer(CreateCustomerDto customerDto) {
+            
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
             var customer = customerDto.CreateBookDto();
             await _customerRepo.CreateAsync(customer);
-
             return CreatedAtAction(nameof(GetByIdCustomer), new {id = customer.Id}, customer.ToCustomerDto());
         }
 
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateCustomer(int id, UpdateCustomer updateCustomer) {
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateCustomer([FromRoute]int id, UpdateCustomer updateCustomer) {
             var customerUpdate = await _customerRepo.UpdateAsync(id, updateCustomer);
             
             if(customerUpdate == null) {
                 return NotFound();
             }
-
             return NoContent();
         }
 
-        
-        // [HttpDelete("{id}")]
-        // public async Task<IActionResult> DeleteCustomer([FromRoute] int id) {
-        //     var customerDelete = await _customerRepo.DeteleAsync(id);
 
-        //     if(customerDelete == null) {
-        //         return NotFound();
-        //     }
-        //     return NoContent();
-        // }
-
-
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
             public async Task<IActionResult> DeleteCustomer([FromRoute] int id) {
-                var customerDelete = await _customerRepo.DeteleAsync(id);
+                
+                if(!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+                var customerDelete = await _customerRepo.DeteleAsync(id);
                 if (customerDelete == null) {
                     return NotFound();
                 }
-
                 return NoContent();
-}
+        }
 
 
  

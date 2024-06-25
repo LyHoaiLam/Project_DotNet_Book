@@ -55,22 +55,6 @@ namespace api.Repository {
             return customerUpdate;
         }
 
-
-        // public async Task<Customer> DeteleAsync(int id)
-        // {
-        //     var customerDetele = await _context.Customer.FirstOrDefaultAsync(c => c.Id == id);
-        //     if(customerDetele == null) {
-        //         return null;
-        //     }
-
-        //     _context.Customer.Remove(customerDetele);
-        //     await _context.SaveChangesAsync();
-
-        //     return customerDetele;
-        // }
-
-
- 
         public async Task<Customer> DeteleAsync(int id) {
             using var transaction = await _context.Database.BeginTransactionAsync();
             
@@ -80,9 +64,7 @@ namespace api.Repository {
                 if (customerToDelete == null) {
                     return null;
                 }
-                // Remove related books
                 _context.Book.RemoveRange(customerToDelete.Books);
-                // Remove customer
                 _context.Customer.Remove(customerToDelete);
 
                 await _context.SaveChangesAsync();

@@ -4847,11 +4847,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Project_DotNet_Book\\api\\api.csproj",
+      "projectUniqueName": "D:\\APS_Net_Core_Web_API\\BookDotNet\\Project_DotNet_Book\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "d:\\Project_DotNet_Book\\api\\api.csproj",
+      "projectPath": "D:\\APS_Net_Core_Web_API\\BookDotNet\\Project_DotNet_Book\\api\\api.csproj",
       "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-      "outputPath": "d:\\Project_DotNet_Book\\api\\obj\\",
+      "outputPath": "D:\\APS_Net_Core_Web_API\\BookDotNet\\Project_DotNet_Book\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config"
