@@ -1,5 +1,6 @@
 using api.Data;
 using api.Dtos.Customer;
+using api.Helpers;
 using api.interfaces;
 using api.Mappers;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -19,12 +20,12 @@ namespace api.controllers {
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() {
+        public async Task<IActionResult> GetAll([FromQuery] QueryObject query) {
 
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
                 
-            var customers = await _customerRepo.GetAllAsync();
+            var customers = await _customerRepo.GetAllAsync(query);
             var customerDto = customers.Select(c => c.ToCustomerDto());
             return Ok(customers);
         }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Book;
 using api.Dtos.Customer;
+using api.Helpers;
 using api.interfaces;
 using api.models;
 using Microsoft.EntityFrameworkCore;
@@ -18,16 +19,29 @@ namespace api.Repository {
         }
 
 
-        public async Task<List<Customer>> GetAllAsync() {
-
-            // return await _context.Customer.ToListAsync();
+        /*public async Task<List<Customer>> GetAllAsync() {
             return await _context.Customer.Include(b => b.Books).ToListAsync();
+        }*/
+
+         public async Task<List<Customer>> GetAllAsync(QueryObject query) {
+
+            var customers = _context.Customer.Include(c => c.Books).AsQueryable();
+
+            if(!string.IsNullOrWhiteSpace(query.Pseudonym)) {
+                customers = customers.Where(s => s.Name.Contains(query.Pseudonym));
+                
+            }
+
+            if(!string.IsNullOrWhiteSpace(query.Symbol)) {
+                customers = customers.Where(s => s.Name.Contains(query.Symbol));
+                
+            }
+
+            return await customers.ToListAsync();
         }
 
-
+     
         public async Task<Customer> GetByIdAsync(int id) {
-
-            // return await _context.Customer.FindAsync(id);
             return await _context.Customer.Include(b => b.Books).FirstOrDefaultAsync(i => i.Id == id);
         }
 
@@ -40,8 +54,7 @@ namespace api.Repository {
         }
 
 
-        public async Task<Customer> UpdateAsync(int id, UpdateCustomer customerDto)
-        {
+        public async Task<Customer> UpdateAsync(int id, UpdateCustomer customerDto) {
             var customerUpdate = await _context.Customer.FirstOrDefaultAsync(c => c.Id == id);
             if(customerUpdate == null) {
                 return null;
@@ -54,6 +67,8 @@ namespace api.Repository {
 
             return customerUpdate;
         }
+
+        
 
         public async Task<Customer> DeteleAsync(int id) {
             using var transaction = await _context.Database.BeginTransactionAsync();
@@ -84,6 +99,6 @@ namespace api.Repository {
             return _context.Customer.AnyAsync(s => s.Id == id);
         }
 
-     
+       
     }
 }
