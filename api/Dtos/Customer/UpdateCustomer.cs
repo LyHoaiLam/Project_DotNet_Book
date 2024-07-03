@@ -10,7 +10,7 @@ namespace api.Dtos.Customer {
 
         [Required]
         [MinLength(5, ErrorMessage = "Description must be 5 characters")]
-        [MaxLength(280, ErrorMessage = "Descriptin cannot be over 280 characters")]
+        [MaxLength(1000, ErrorMessage = "Descriptin cannot be over 280 characters")]
         public string? Description { get; set; } = string.Empty;
         public DateTime YearOfBirth { get; set; }
         public string? National { get; set; }

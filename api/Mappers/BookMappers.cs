@@ -6,7 +6,7 @@ namespace api.Mappers {
          public static BookDto ToBookDto(this Book bookModel) {
                 Console.WriteLine("---------------------------------------------------------------");
                 // Console.WriteLine(bookModel.Id, bookModel.Title, bookModel.Description, bookModel.Amount);
-                    Console.WriteLine("Id: {0}, Title: {1}, Description: {2}, Amount: {3}", bookModel.Id, bookModel.Title, bookModel.Description, bookModel.Amount);
+                    Console.WriteLine("Id: {0}, Title: {1}, Description: {2}, Amount: {3}, CustomerId: {4}", bookModel.Id, bookModel.Title, bookModel.Description, bookModel.Amount, bookModel.CustomerId);
                 Console.WriteLine("---------------------------------------------------------------");
 
             return new BookDto {
@@ -14,7 +14,8 @@ namespace api.Mappers {
                 Title = bookModel.Title,
                 Description = bookModel.Description,
                 Price = bookModel.Price,
-                Amount = bookModel.Amount
+                Amount = bookModel.Amount,
+                CustomerId = bookModel.CustomerId
 
             };
         }

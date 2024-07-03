@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api.Data;
 
@@ -11,9 +12,11 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplacationDBContext))]
-    partial class ApplacationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240625090431_Identity02")]
+    partial class Identity02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,20 +50,6 @@ namespace api.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "eda4e49c-bdf0-435c-83c9-93c41c30fda6",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "cacd66a0-0122-4a88-89b0-5f7f32b33d98",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -249,7 +238,6 @@ namespace api.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -350,9 +338,7 @@ namespace api.Migrations
                 {
                     b.HasOne("api.models.Customer", null)
                         .WithMany("Books")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
                 });
 
             modelBuilder.Entity("api.models.Customer", b =>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Quic;
 using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Book;
@@ -23,24 +24,24 @@ namespace api.Repository {
             return await _context.Customer.Include(b => b.Books).ToListAsync();
         }*/
 
-         public async Task<List<Customer>> GetAllAsync(QueryObject query) {
+        public async Task<List<Customer>> GetAllAsync(QueryObject query) {
 
             var customers = _context.Customer.Include(c => c.Books).AsQueryable();
 
             if(!string.IsNullOrWhiteSpace(query.Pseudonym)) {
                 customers = customers.Where(s => s.Name.Contains(query.Pseudonym));
-                
             }
-
             if(!string.IsNullOrWhiteSpace(query.Symbol)) {
                 customers = customers.Where(s => s.Name.Contains(query.Symbol));
-                
             }
+            
 
             return await customers.ToListAsync();
+
         }
 
-     
+
+
         public async Task<Customer> GetByIdAsync(int id) {
             return await _context.Customer.Include(b => b.Books).FirstOrDefaultAsync(i => i.Id == id);
         }

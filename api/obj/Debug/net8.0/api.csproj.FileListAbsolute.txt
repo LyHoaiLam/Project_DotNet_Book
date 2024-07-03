@@ -282,3 +282,5 @@ D:\APS_Net_Core_Web_API\BookDotNet\Project_DotNet_Book\api\obj\Debug\net8.0\refi
 D:\APS_Net_Core_Web_API\BookDotNet\Project_DotNet_Book\api\obj\Debug\net8.0\api.pdb
 D:\APS_Net_Core_Web_API\BookDotNet\Project_DotNet_Book\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 D:\APS_Net_Core_Web_API\BookDotNet\Project_DotNet_Book\api\obj\Debug\net8.0\ref\api.dll
+D:\APS_Net_Core_Web_API\BookDotNet\Project_DotNet_Book\api\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\APS_Net_Core_Web_API\BookDotNet\Project_DotNet_Book\api\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
