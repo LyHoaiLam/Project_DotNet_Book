@@ -2,6 +2,7 @@ using api.Data;
 using api.Dtos.Book;
 using api.interfaces;
 using api.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.controllers {
@@ -22,6 +23,7 @@ namespace api.controllers {
 
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllBooks() {
 
             if(!ModelState.IsValid)
@@ -35,6 +37,7 @@ namespace api.controllers {
 
 
         [HttpGet("{id:int}")]
+        [Authorize]
         public async Task<IActionResult> GetByIdBook([FromRoute] int id) {
 
             if(!ModelState.IsValid)
