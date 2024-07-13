@@ -51,13 +51,13 @@ namespace api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "eda4e49c-bdf0-435c-83c9-93c41c30fda6",
+                            Id = "c4daf992-f992-493e-9ca3-0ef746b08b64",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cacd66a0-0122-4a88-89b0-5f7f32b33d98",
+                            Id = "2aa75bd0-8067-444f-bb58-df79482920e9",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -237,6 +237,21 @@ namespace api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("api.models.AuthorList", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUserId", "CustomerId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("AuthorList");
+                });
+
             modelBuilder.Entity("api.models.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -266,7 +281,7 @@ namespace api.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("api.models.Customer", b =>
@@ -346,6 +361,25 @@ namespace api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("api.models.AuthorList", b =>
+                {
+                    b.HasOne("api.models.AppUser", "AppUser")
+                        .WithMany("authorLists")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.models.Customer", "Customer")
+                        .WithMany("authorLists")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("api.models.Book", b =>
                 {
                     b.HasOne("api.models.Customer", null)
@@ -355,9 +389,16 @@ namespace api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("api.models.AppUser", b =>
+                {
+                    b.Navigation("authorLists");
+                });
+
             modelBuilder.Entity("api.models.Customer", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("authorLists");
                 });
 #pragma warning restore 612, 618
         }

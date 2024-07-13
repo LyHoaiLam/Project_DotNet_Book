@@ -12,8 +12,8 @@ using api.Data;
 namespace api.Migrations
 {
     [DbContext(typeof(ApplacationDBContext))]
-    [Migration("20240625090431_Identity02")]
-    partial class Identity02
+    [Migration("20240713182450_AuthorListManyToMany")]
+    partial class AuthorListManyToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,20 @@ namespace api.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c4daf992-f992-493e-9ca3-0ef746b08b64",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "2aa75bd0-8067-444f-bb58-df79482920e9",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -226,6 +240,21 @@ namespace api.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("api.models.AuthorList", b =>
+                {
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AppUserId", "CustomerId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("AuthorList");
+                });
+
             modelBuilder.Entity("api.models.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -238,6 +267,7 @@ namespace api.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("CustomerId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -254,7 +284,7 @@ namespace api.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Book");
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("api.models.Customer", b =>
@@ -334,16 +364,44 @@ namespace api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("api.models.AuthorList", b =>
+                {
+                    b.HasOne("api.models.AppUser", "AppUser")
+                        .WithMany("authorLists")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api.models.Customer", "Customer")
+                        .WithMany("authorLists")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Customer");
+                });
+
             modelBuilder.Entity("api.models.Book", b =>
                 {
                     b.HasOne("api.models.Customer", null)
                         .WithMany("Books")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("api.models.AppUser", b =>
+                {
+                    b.Navigation("authorLists");
                 });
 
             modelBuilder.Entity("api.models.Customer", b =>
                 {
                     b.Navigation("Books");
+
+                    b.Navigation("authorLists");
                 });
 #pragma warning restore 612, 618
         }
