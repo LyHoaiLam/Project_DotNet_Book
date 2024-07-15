@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Quic;
-using System.Threading.Tasks;
 using api.Data;
-using api.Dtos.Book;
 using api.Dtos.Customer;
 using api.Helpers;
 using api.interfaces;
@@ -31,15 +25,14 @@ namespace api.Repository {
             if(!string.IsNullOrWhiteSpace(query.Pseudonym)) {
                 customers = customers.Where(s => s.Name.Contains(query.Pseudonym));
             }
+
             if(!string.IsNullOrWhiteSpace(query.Symbol)) {
                 customers = customers.Where(s => s.Name.Contains(query.Symbol));
             }
             
-
             return await customers.ToListAsync();
 
         }
-
 
 
         public async Task<Customer> GetByIdAsync(int id) {
@@ -60,6 +53,7 @@ namespace api.Repository {
             if(customerUpdate == null) {
                 return null;
             }
+
             customerUpdate.Name = customerDto.Name;
             customerUpdate.Description = customerDto.Description;
             customerUpdate.YearOfBirth = customerDto.YearOfBirth;
@@ -69,11 +63,10 @@ namespace api.Repository {
             return customerUpdate;
         }
 
-        
 
         public async Task<Customer> DeteleAsync(int id) {
+
             using var transaction = await _context.Database.BeginTransactionAsync();
-            
             try {
                 var customerToDelete = await _context.Customer.Include(c => c.Books)
                                                             .FirstOrDefaultAsync(c => c.Id == id);

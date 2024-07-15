@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Data;
 using api.Dtos.Book;
 using api.interfaces;
 using api.models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace api.Repository {
     public class BookRepository : IBookRepository {
@@ -22,21 +16,21 @@ namespace api.Repository {
             return await _context.Book.ToListAsync();
         }
 
-        public async Task<Book?> GetByIdAsync(int id)
-        {
+
+        public async Task<Book?> GetByIdAsync(int id) {
             return await _context.Book.FindAsync(id);
         }
 
-        public async Task<Book?> CreateAsync(Book book)
-        {
+
+        public async Task<Book?> CreateAsync(Book book) {
             await _context.Book.AddAsync(book);
             await _context.SaveChangesAsync();
-
+            
             return book;
         }
 
-        public async Task<Book?> UpdateAsync(int id, UpdateBookDto bookDto)
-        {
+
+        public async Task<Book?> UpdateAsync(int id, UpdateBookDto bookDto) {
             var bookUpdate = await _context.Book.FirstOrDefaultAsync(b => b.Id == id);
             if(bookUpdate == null) {
                 return null;
@@ -46,15 +40,13 @@ namespace api.Repository {
             bookUpdate.Description = bookDto.Description;
             bookUpdate.Price = bookDto.Price;
             bookUpdate.Amount = bookDto.Amount;
-
             await _context.SaveChangesAsync();
 
             return bookUpdate;
         }
 
 
-        public async Task<Book?> DeleteAsync(int id)
-        {
+        public async Task<Book?> DeleteAsync(int id) {
             var bookModel = await _context.Book.FirstOrDefaultAsync(b => b.Id == id);
             if(bookModel == null) {
                 return null;
@@ -67,6 +59,5 @@ namespace api.Repository {
         }
       
        
-
     }
 }

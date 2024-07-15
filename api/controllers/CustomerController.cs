@@ -3,7 +3,6 @@ using api.Dtos.Customer;
 using api.Helpers;
 using api.interfaces;
 using api.Mappers;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.controllers {

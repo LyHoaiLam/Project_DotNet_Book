@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using api.interfaces;
 using api.models;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +17,7 @@ namespace api.Service {
             _config = config;
             _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
         }
+        
         public string CreateToken(AppUser user) {
             // Để nhận dạng user và thể hei65n nhg gì user không thể làm trong Project của chúng ta
             var claims = new List<Claim> {

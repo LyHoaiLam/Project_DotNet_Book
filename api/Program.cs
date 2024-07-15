@@ -14,7 +14,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddSwaggerGen(option => {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
@@ -38,7 +37,6 @@ builder.Services.AddSwaggerGen(option => {
 });
 
 
-
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddDbContext<ApplacationDBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnect")));
@@ -46,12 +44,9 @@ builder.Services.AddCors(options => { options.AddPolicy("MyCors", builder => { b
             .AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
-
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
-
 builder.Services.AddIdentity<AppUser, IdentityRole>(options => {
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
@@ -75,7 +70,6 @@ builder.Services.AddAuthentication(options => {
                 ValidAudience = builder.Configuration["JWT:Audience"],
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(
-
                     System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
                 )
             };

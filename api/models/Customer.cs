@@ -18,6 +18,5 @@ namespace api.models {
         public List<Book>? Books { get; set; } = new List<Book>();
         public List<AuthorList> authorLists { get; set; } = new List<AuthorList>();
 
-
     }
 }

@@ -10,6 +10,5 @@ namespace api.Dtos.Customer {
 
         public List<BookDto>? Books { get; set; }
 
-
     }
 }
